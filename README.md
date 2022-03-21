@@ -17,11 +17,7 @@ Every item that is stored in the database must specify the datatype for both its
 
 ```json
 {
-    "key": {
-        "content_type": "{*MIMEType}",
-        "value": "whatever key you define"
-    },
-    "value": {
+    "${key}": {
         "content_type": "{*MIMEType}",
         "encoding": "{*some_encodings}",
         "value": "whatever value you want to send encoded"
@@ -44,11 +40,7 @@ HTTP methods:
     ```json
     "data": [
         {
-            "key": {
-                "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
-            },
-            "value": {
+            "${key}": {
                 "content_type": "{*MIMEType}",
                 "encoding": "{*some_encodings}",
                 "value": "whatever value you want to send encoded"
@@ -56,11 +48,7 @@ HTTP methods:
         },
         ...
         {
-            "key": {
-                "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
-            },
-            "value": {
+            "${key}": {
                 "content_type": "{*MIMEType}",
                 "encoding": "{*some_encodings}",
                 "value": "whatever value you want to send encoded"
@@ -71,15 +59,11 @@ HTTP methods:
 
 - **POST:** To make more specific queries by key:
     ```bash
-    curl -X POST http://server:8080/ -H "Content-Type: application/json" -d '{"content_type": "{*MIMEType}", "value": "whatever_key_you_want_to_fetch"}'
+    curl -X POST http://server:8080/ -H "Content-Type: application/json" -d '${key}'
     ```
     ```json
     {
-        "key": {
-            "content_type": "{*MIMEType}",
-            "value": "whatever key you define"
-        },
-        "value": {
+        "${key}": {
             "content_type": "{*MIMEType}",
             "encoding": "{*some_encodings}",
             "value": "whatever_value_you_asked_for"
@@ -95,22 +79,14 @@ HTTP methods:
     ```json
     [
         {
-            "key": {
-                "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
-            },
-            "value": {
+            "${key}": {
                 "content_type": "{*MIMEType}",
                 "encoding": "{*some_encodings}",
                 "value": "whatever_value_you_asked_for"
             }
         },
         {
-            "key": {
-                "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
-            },
-            "value": {
+            "${key}": {
                 "content_type": "{*MIMEType}",
                 "encoding": "{*some_encodings}",
                 "value": "whatever_value_you_asked_for"
@@ -124,14 +100,15 @@ HTTP methods:
     ```
     ```json
     {
-        "key": {
+        "${key}": {
             "content_type": "{*MIMEType}",
-            "value": "whatever key you define"
+            "encoding": "{*some_encodings}",
+            "value": "whatever_key_you_want_store"
         }
     }
     ```
 
-    Although you cannot do ranged queries, you may query for multiple keys.
+    You may also insert many values in one put request.
 
     ```bash
     curl -X PUT http://server:8080/ -H "Content-Type: application/json" -d '[{"content_type": "{*MIMEType}", "encoding": "{*some_encodings}", "value": "whatever_key_you_want_store"}, {"content_type": "{*MIMEType}", "encoding": "{*some_encodings}", "value": "whatever_key_you_want_store"}]'
@@ -139,15 +116,17 @@ HTTP methods:
     ```json
     [
         {
-            "key": {
+            "${key}": {
                 "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
+                "encoding": "{*some_encodings}",
+                "value": "whatever_key_you_want_store"
             }
         },
         {
-            "key": {
+            "${key2}": {
                 "content_type": "{*MIMEType}",
-                "value": "whatever key you define"
+                "encoding": "{*some_encodings}",
+                "value": "whatever_key_you_want_store"
             }
         }
     ]
