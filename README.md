@@ -13,6 +13,8 @@ A simple tpy implementation of a distributed key value database in python for th
 - Python libraries:
     - `mmh3`
     - `numpy`
+    - `python-dotenv`
+    - `requests`
 
 ## Design
 
