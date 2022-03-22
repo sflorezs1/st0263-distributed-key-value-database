@@ -7,8 +7,8 @@ from libs.singleton import Singleton
 @Singleton
 class API(object):
 
-    def __init__(self, nodes: List[str]):
-        self.nodes = nodes
+    def __init__(self, dht_lookup):
+        self.dht_lookup = dht_lookup
 
     def process_request(self, method, fn_arg):
         match method := method.path[1:]:
@@ -21,9 +21,13 @@ class API(object):
             case _:
                 return (f'Action "{method}" does not exist!',  HTTPStatus.BAD_REQUEST)
 
-    def query(self, fn_arg):
+    def search_partion(key):
         
-        pass
+
+    def query(self, fn_arg):
+        key = bytes.fromhex(fn_arg['key'])
+        
+        return 
 
     def set(self, fn_arg):
         pass
