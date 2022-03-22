@@ -20,6 +20,10 @@ class API(object):
 
     def process_request(self, method):
         match method := method.path[1:] :
+            case 'ping':
+                return lambda *args, **kwargs: ('PONG', HTTPStatus.OK)
+            case 'sync':
+                return lambda *args, **kwargs: ('', HTTPStatus.OK)
             case 'query':
                 return lambda *args, **kwargs: self.query(*args, **kwargs)
             case 'set':
