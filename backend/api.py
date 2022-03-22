@@ -21,9 +21,17 @@ class API(object):
         self.replicas = [None]
         self.current_replica_index = 0
         self.master_mode = os.getenv('DB_NODE_MODE') == 'master'
+        self.in_cluster = False
 
     def process_request(self, method, fn_arg):
-        match method := method.path[1:] :
+        match method := method.path[1:]:
+            case 'join':
+                if not self.in_cluster:
+                    print(f'I am node "{fn_arg["id"]}" in charge of keys "{fn_arg["start"]}" to "{fn_arg["end"]}"!')
+                    self.in_cluster = True
+                    return ('Alright', HTTPStatus.OK)
+                else:
+                    return ('I am already in a cluster', HTTPStatus.CONFLICT)
             case 'ping':
                 return ('PONG', HTTPStatus.OK)
             case 'subscribe': #  Asked to be added as a slave
@@ -34,7 +42,6 @@ class API(object):
                     return 'I am not a master', HTTPStatus.IM_A_TEAPOT
             case 'query':
                 if self.master_mode:
-                    # Operate via a round robin
                     # not the best solution but should help
                     if self.current_replica_index == 0 or len(self.replicas) == 1:
                         self.current_replica_index = (self.current_replica_index + 1) % len(self.replicas)
@@ -43,6 +50,8 @@ class API(object):
                         n = self.current_replica_index
                         self.current_replica_index = (self.current_replica_index + 1) % len(self.replicas)
                         return (str(self.replicas[n]), HTTPStatus.TEMPORARY_REDIRECT)
+                else:
+                    return self.query(fn_arg)
             case 'set':
                 result = self.set(fn_arg)
                 with requests.Session() as r:

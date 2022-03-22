@@ -35,7 +35,8 @@ class LSMTree(object):
         if not (Path(segments_directory).exists() and Path(segments_directory).is_dir()):
             Path(segments_directory).mkdir(parents=True)
 
-        self.load_past_state()
+        if not self.load_past_state():
+            self.save_state()
         self.restore_memtable()
 
     def db_set(self, key: bytes, value: Value) -> None:
@@ -49,7 +50,7 @@ class LSMTree(object):
         additional_size = len(key) + len(self.serialize_value(value))
         if self.memtable.total_bytes + additional_size > self.threshold:
             self.flush_memtable_to_disk(self.current_segment_path())
-
+            self.save_state()
             self.memtable = RedBlackTree()
             self.memtable_wal().clear()
 
