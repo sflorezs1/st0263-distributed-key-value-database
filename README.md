@@ -1,6 +1,6 @@
 # Distributed Key Value Database in Python
 
-A simple tpy implementation of a distributed key value database in python for the Special Topics on Telematics course for Systems Engineering at Universidad EAFIT Colombia.
+A simple toy implementation of a distributed key value database in python for the Special Topics on Telematics course for Systems Engineering at Universidad EAFIT Colombia.
 
 ## Authors
 - Simón Flórez Silva (sflorezs1@eafit.edu.co)
@@ -17,6 +17,8 @@ A simple tpy implementation of a distributed key value database in python for th
 ## Design
 
 ### Key-Value pair format
+Each key must be the result of a hashing function applied over the data itself, the selected hash function for this project is `mmh3.hash_bytes` which maps any value to a 128 bit bytes value.
+
 Similar to the way we store a file in any kind of storage, we must supply a name, a content type, and the content itself.
 
 Every item that is stored in the database must specify the datatype for both its key and value and for the later it is also required to specify the encoding of the data.
@@ -52,16 +54,6 @@ HTTP methods:
         }
     }
     ```
-    - **Auxiliary:** There are some auxiliary methods in the POST verb, these are used for syncing the servers. 
-        - subscribe: used by an slave to enter a replication scheme. This can be used at any time.
-            ```bash
-            curl -X POST http://server:port/subscribe -H "Content-Type: application/json" -d '{"ip": "my ip", "port": "my port"}'
-            ```
-            If the server is a master, it will subscribe the given ip and address as a replica. And will try to sync with it. The expected response is `Subscribed`. If the server is not a master: `I am not a master` with status code `I AM A TEAPOT`.
-        - ping: used to see if a server is alive, the expected response is `PONG`.
-            ```bash
-            curl -X GET http://server:port/ping
-            ```
 - **PUT:** Create an entry. One caveat, we are using bytes for the keys, which is not a datatype accepted by json, hence any key sent through this method should be transformed into a hex string first, in the server side, it will be decoded as bytes again.
     ```bash
     curl -X PUT http://server:8080/set -H "Content-Type: application/json" -d '{"key": "90219201f2","content_type": "{*MIMEType}", "encoding": "{*some_encodings}", "value": "whatever_key_you_want_store"}'
@@ -75,6 +67,16 @@ HTTP methods:
         }
     }
     ```
+- **Auxiliary:** There are some auxiliary methods in the POST verb, these are used for syncing the servers. 
+    - subscribe: used by an slave to enter a replication scheme. This can be used at any time.
+        ```bash
+        curl -X POST http://server:port/subscribe -H "Content-Type: application/json" -d '{"ip": "my ip", "port": "my port"}'
+        ```
+        If the server is a master, it will subscribe the given ip and address as a replica. And will try to sync with it. The expected response is `Subscribed`. If the server is not a master: `I am not a master` with status code `I AM A TEAPOT`.
+    - ping: used to see if a server is alive, the expected response is `PONG`.
+        ```bash
+        curl -X GET http://server:port/ping
+        ```
 
 **Note:** We do not allow querying for all data as it would be horribly expensive in both network and disk requirements! Ranged queries are also out of reach for this project as we did not implement secondary keys!
 
