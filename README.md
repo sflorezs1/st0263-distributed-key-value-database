@@ -41,7 +41,7 @@ The system will use the WEB middleware over the HTTP protocol using a REST-like 
 HTTP methods:
 - **POST:** To make queries by key:
     ```bash
-    curl -X POST http://server:8080/ -H "Content-Type: application/octet-stream" -d '${key}'
+    curl -X POST http://server:8080/query -H "Content-Type: application/octet-stream" -d '${key}'
     ```
     ```json
     {
@@ -52,9 +52,19 @@ HTTP methods:
         }
     }
     ```
+    - **Auxiliary:** There are some auxiliary methods in the POST verb, these are used for syncing the servers. 
+        - subscribe: used by an slave to enter a replication scheme. This can be used at any time.
+            ```bash
+            curl -X POST http://server:port/subscribe -H "Content-Type: application/json" -d '{"ip": "my ip", "port": "my port"}'
+            ```
+            If the server is a master, it will subscribe the given ip and address as a replica. And will try to sync with it. The expected response is `Subscribed`. If the server is not a master: `I am not a master` with status code `I AM A TEAPOT`.
+        - ping: used to see if a server is alive, the expected response is `PONG`.
+            ```bash
+            curl -X GET http://server:port/ping
+            ```
 - **PUT:** Create an entry. One caveat, we are using bytes for the keys, which is not a datatype accepted by json, hence any key sent through this method should be transformed into a hex string first, in the server side, it will be decoded as bytes again.
     ```bash
-    curl -X PUT http://server:8080/ -H "Content-Type: application/json" -d '{"key": "90219201f2","content_type": "{*MIMEType}", "encoding": "{*some_encodings}", "value": "whatever_key_you_want_store"}'
+    curl -X PUT http://server:8080/set -H "Content-Type: application/json" -d '{"key": "90219201f2","content_type": "{*MIMEType}", "encoding": "{*some_encodings}", "value": "whatever_key_you_want_store"}'
     ```
     ```json
     {
