@@ -1,4 +1,4 @@
-from user_cli import YADDBClient as cli
+from client import YADDBClient as cli
 
 def tryWriteExample(key,value,content_type,encoding):
     #Run a server with the following command
@@ -41,11 +41,11 @@ def test():
 
 ##Test
 if __name__ == '__main__':
-    my_db_client=cli('127.0.0.1',80)
+    my_db_client=cli('18.210.190.131', 19090)
 
     #Uncomment to run an example of using the methods from your own code
-    tryWriteExample('some_key','some_value','text/plain','UTF-8') 
-    tryReadExample('some_key') 
+    tryWriteExample('Juan','some_value','text/plain','UTF-8') 
+    tryReadExample('Juan') 
 
     #Simple Test set
     #test()

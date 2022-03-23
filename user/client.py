@@ -1,11 +1,5 @@
-from http import HTTPStatus
-import json
-import os
-import this
-import dotenv
 import requests
 import mmh3
-
 
 
 class YADDBClient:
