@@ -23,7 +23,7 @@ class YADDBClient:
 
     def read(self, key):
         hash_key = mmh3.hash_bytes(key)
-        res = requests.post(f'http://{self.host}:{self.port}/query', data=hash_key)
+        res = requests.post(f'http://{self.host}:{self.port}/query', data=hash_key.hex())
         if res.ok:
             response=res.json()
             response['value']=bytes.fromhex(response['value'])
