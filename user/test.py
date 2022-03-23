@@ -4,7 +4,7 @@ def tryWriteExample(key,value,content_type,encoding):
     #Run a server with the following command
     #$ python run_frontend.py -H 127.0.0.1 -p 80
 
-    #create a client to use de databse
+    #create a client to use de database
     some_client=cli('127.0.0.1',80)
 
     #Write to Database
