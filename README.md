@@ -16,6 +16,25 @@ A simple toy implementation of a distributed key value database in python for th
     - `python-dotenv`
     - `requests`
 
+## Installation
+- This program was designed to run in `python3.10` but feel free to try and modify it to run on other versions.
+    - Some Libraries (such as mmh3) need Visual C + + 14.0
+- Install Libraries:
+
+```
+$ pip install mmh3
+$ pip install numpy
+$ pip install python-dotenv
+$ pip install requests
+```
+
+If everything went correctly you should try running test.py to check. Remember to run the server first!
+
+```
+$ python run_frontend.py -H 127.0.0.1 -p 80
+$ python test.py
+```
+
 ## Design
 
 ### Key-Value pair format

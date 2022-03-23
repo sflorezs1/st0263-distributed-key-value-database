@@ -39,7 +39,7 @@ class HTTPHandler(BaseHTTPRequestHandler):
         content_ = self.rfile.read(content_length)
         try:
             content = json.loads(content_)
-        except json.JSONDecodeError:
+        except:
             content = content_
         finally:
             result, status_code = API.instance().process_request(urlparse(self.path), fn_arg=content)
