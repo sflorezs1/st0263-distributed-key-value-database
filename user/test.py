@@ -5,7 +5,7 @@ def tryWriteExample(key,value,content_type,encoding):
     #$ python run_frontend.py -H 127.0.0.1 -p 80
 
     #create a client to use de database
-    some_client=cli('127.0.0.1',80)
+    some_client=cli('18.210.190.131',19090)
 
     #Write to Database
     written=some_client.write(key.encode(),value.encode(),content_type,encoding) #key and value MUST be Bytes
@@ -13,7 +13,7 @@ def tryWriteExample(key,value,content_type,encoding):
         print(value,' succesfully written to database')
 
 def tryReadExample(key):
-    some_client=cli('127.0.0.1',80)
+    some_client=cli('18.210.190.131',19090)
      
     #Read from Database
     read=some_client.read(key.encode()) #key MUST be Bytes
@@ -23,6 +23,7 @@ def tryReadExample(key):
 
 
 def test():
+    my_db_client=cli('18.210.190.131',19090)
     key=0 #Needs to be bytes
     value='Hello World' # Needs to be bytes
     print(my_db_client.host,my_db_client.port)
@@ -41,7 +42,6 @@ def test():
 
 ##Test
 if __name__ == '__main__':
-    my_db_client=cli('127.0.0.1',80)
 
     #Uncomment to run an example of using the methods from your own code
     tryWriteExample('some_key','some_value','text/plain','UTF-8') 
