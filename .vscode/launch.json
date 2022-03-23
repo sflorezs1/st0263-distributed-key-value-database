@@ -5,13 +5,28 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Front end",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "args": ["master"]
+            "args": [
+                "-H", "0.0.0.0",
+                "-p", "19095",
+                "--nodes", "0.0.0.0:19090", "0.0.0.0:19091", "0.0.0.0:19092"
+            ]
+        },
+        {
+            "name": "Python: Back end",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "master"
+            ]
         }
     ]
 }

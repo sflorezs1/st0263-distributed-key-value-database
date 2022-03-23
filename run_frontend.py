@@ -14,7 +14,7 @@ def parse_args():
         '-p', '--port', help='Port in which the app will run', default='19090')
     parser.add_argument(
         '--nodes', nargs='+', help='IPs and ports of the machines that will run the distributed server. (0.0.0.0:19090)', required=True)
-    return args
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
@@ -34,9 +34,9 @@ if __name__ == '__main__':
             if res.ok:
                 print(f'Node {node} is alive!')
         
-        size = 2 ** 128
+        size = 2 ** 128 - 1  # space of hash keys
 
-        per_node = int(size / len(args.nodes))
+        per_node = size // len(args.nodes)
 
         last_end = -1
 
@@ -49,13 +49,13 @@ if __name__ == '__main__':
             start = last_end + 1
             if o > 0:
                 o -= 1
-                end = start + per_node + 1
+                end = start + per_node + ( 1 if last_end < 0 else 0)
             else:
-                end = start + per_node
+                end = start + per_node + ( 0 if last_end < 0 else -1)
             last_end = end
 
-            start = start.to_bytes(128//8, byteorder='big').hex()
-            end = end.to_bytes(128//8, byteorder='big').hex()
+            start = start.to_bytes(16, byteorder='little', signed=False).hex()
+            end = end.to_bytes(16, byteorder='little', signed=False).hex()
 
             res = r.post(f'http://{node}/join', json={
                 "id": str(id),
@@ -71,13 +71,8 @@ if __name__ == '__main__':
                 exit(1)
             
             dht_lookup[(bytes.fromhex(start), bytes.fromhex(end))] = node
-        
-    
 
-            
-            
-
-    server = HTTPServer((args.host, int(args.port)), makeHTTPHandler(args.nodes))
+    server = HTTPServer((args.host, int(args.port)), makeHTTPHandler(dht_lookup))
 
     print('Running server!')
 

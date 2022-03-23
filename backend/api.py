@@ -65,7 +65,8 @@ class API(object):
 
 
     def query(self, data=None):
-        value = self.database.get(data)
+        key = bytes.fromhex(data.decode())
+        value = self.database.get(key)
         statusCode = HTTPStatus.OK if value else HTTPStatus.NOT_FOUND
         return value, statusCode
 
