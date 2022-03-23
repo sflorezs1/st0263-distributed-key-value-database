@@ -6,7 +6,7 @@ import argparse
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser = argparse.ArgumentParser(description='Backend for  the YADDB database!')
     parser.add_argument('-H', '--host', help='IP in the machine that will serve', default='0.0.0.0')
     parser.add_argument('-p', '--port', help='Port in which the app will run', default='19090')
     subparsers = parser.add_subparsers(dest='mode')

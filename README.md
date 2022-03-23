@@ -4,17 +4,19 @@ A simple toy implementation of a distributed key value database in python for th
 
 ## Authors
 - Simón Flórez Silva (sflorezs1@eafit.edu.co)
-- Jhoan Stiven Ruiz Arias ()
-- Juan José Madrigal Palacio ()
+- Jhoan Stiven Ruiz Arias (jsruiza@eafit.edu.co)
+- Juan José Madrigal Palacio (jjmadrigap@eafit.edu.co)
 - Adrián Alberto Gutiérrez Leal (aagutierrl@eafit.edu.co)
 
 ## Requirements
+- Not a requirement per se, but it is advisable to run this program in a virtual environment.
 - This program was designed to run in `python3.10` but feel free to try and modify it to run on other versions.
 - Python libraries:
-    - `mmh3`
+    - `mmh3` (you may need MS Visual C++ 14 if running on windows)
     - `numpy`
     - `python-dotenv`
     - `requests`
+- If unsure, you may want to run `pip install -r requirement.txt`
 
 ## Installation
 - This program was designed to run in `python3.10` but feel free to try and modify it to run on other versions.
@@ -22,10 +24,10 @@ A simple toy implementation of a distributed key value database in python for th
 - Install Libraries:
 
 ```
-$ pip install mmh3
-$ pip install numpy
-$ pip install python-dotenv
-$ pip install requests
+pip install mmh3
+pip install numpy
+pip install python-dotenv
+pip install requests
 ```
 
 If everything went correctly you should try running test.py to check. Remember to run the server first!
@@ -35,6 +37,42 @@ $ python run_frontend.py -H 127.0.0.1 -p 80
 $ python test.py
 ```
 
+## Running
+The frontend/router may be run with the script `run_frontend.py`
+```usage: run_frontend.py [-h] [-H HOST] [-p PORT] --nodes NODES [NODES ...]
+
+Frontend for the YADDB database!
+
+options:
+  -h, --help            show this help message and exit
+  -H HOST, --host HOST  IP in the machine that will serve
+  -p PORT, --port PORT  Port in which the app will run
+  --nodes NODES [NODES ...] IPs and ports of the machines that will run the distributed server. (0.0.0.0:19090)
+```
+
+The backend must be run for each node and configured via the script `run_backend.py`
+```usage: run_backend.py [-h] [-H HOST] [-p PORT] {slave,master} ...
+
+Backend for the YADDB database!
+
+positional arguments:
+  {slave,master}
+
+options:
+  -h, --help            show this help message and exit
+  -H HOST, --host HOST  IP in the machine that will serve
+  -p PORT, --port PORT  Port in which the app will run
+```
+If the `slave` subcommand is used:
+```usage: run_backend.py slave [-h] --master-host MASTER_HOST --master-port MASTER_PORT
+
+options:
+  -h, --help            show this help message and exit
+  --master-host MASTER_HOST
+                        IP of the master node to sync
+  --master-port MASTER_PORT
+                        Port in which the app is running on master
+```
 ## Design
 
 ### Key-Value pair format

@@ -1,0 +1,17 @@
+autopep8==1.6.0
+bitarray==2.4.0
+certifi==2021.10.8
+charset-normalizer==2.0.12
+distlib==0.3.4
+filelock==3.6.0
+idna==3.3
+mmh3==3.0.0
+numpy==1.22.3
+platformdirs==2.5.1
+pycodestyle==2.8.0
+python-dotenv==0.19.2
+requests==2.27.1
+six==1.16.0
+toml==0.10.2
+urllib3==1.26.9
+virtualenv==20.13.3

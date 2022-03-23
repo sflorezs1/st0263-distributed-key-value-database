@@ -7,7 +7,7 @@ import argparse
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser = argparse.ArgumentParser(description='Frontend for the YADDB database!')
     parser.add_argument(
         '-H', '--host', help='IP in the machine that will serve', default='0.0.0.0')
     parser.add_argument(
