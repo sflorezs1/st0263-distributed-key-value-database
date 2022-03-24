@@ -240,7 +240,7 @@ class LSMTree(object):
                     value = json.loads(value)
                     value['value'] = bytes.fromhex(value['value'])
                     if counter == 1:
-                        self.index.add(key, value, offset=bytes, segment=segment)
+                        self.index.add(key, None, offset=bytes, segment=segment)
                         counter = self.sparcity() + 1
                     n_bytes += len(line)
                     counter -= 1
